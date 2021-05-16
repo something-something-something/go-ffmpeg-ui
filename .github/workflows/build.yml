@@ -35,4 +35,7 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           path: art/
-      - run: gh release create -p --target $GITHUB_SHA $GITHUB_SHA 'art/linux-go-ffmpeg-ui/go-ffmpeg-ui#linux' 'art/windows-go-ffmpeg-ui/go-ffmpeg-ui.exe#windows'
+      - name: prerelease-gh
+        run: gh release create -p --target $GITHUB_SHA $GITHUB_SHA 'art/linux-go-ffmpeg-ui/go-ffmpeg-ui#linux' 'art/windows-go-ffmpeg-ui/go-ffmpeg-ui.exe#windows'
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
