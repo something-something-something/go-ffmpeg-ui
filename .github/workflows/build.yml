@@ -1,0 +1,10 @@
+name: build-app
+on: [push]
+jobs:
+  build-on-linux:
+    runs-on: ubuntu-latest
+    steps: 
+      - run: go build
+        uses: actions/upload-artifact@v2
+        with: linux-go-ffmpeg-ui
+        path: go-ffmpeg-ui
