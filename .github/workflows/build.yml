@@ -28,3 +28,11 @@ jobs:
         with:
           name: windows-go-ffmpeg-ui
           path: go-ffmpeg-ui.exe
+  prerelease:
+    needs: [build-on-linux, build-on-windows]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          path: art/
+      - run: gh release create -p --target $GITHUB_SHA $GITHUB_SHA 'art/linux-go-ffmpeg-ui/go-ffmpeg-ui#linux' 'art/windows-go-ffmpeg-ui/go-ffmpeg-ui.exe#windows'
