@@ -47,8 +47,9 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           path: art/
-      - run: zip go-ffmpeg-ui-windows.zip art/windows-go-ffmpeg-ui/go-ffmpeg-ui.exe
+      - run: zip go-ffmpeg-ui-windows.zip go-ffmpeg-ui.exe
+        working-directory: art/windows-go-ffmpeg-ui/
       - name: prerelease-gh
-        run: gh release create -R $GITHUB_REPOSITORY -p --target $GITHUB_SHA 0.0.0-alpha-"$(date -u +%F-%H-%M-%S)" 'art/linux-go-ffmpeg-ui/go-ffmpeg-ui#linux' 'go-ffmpeg-ui-windows.zip#windows' 'art/macos-go-ffmpeg-ui/go-ffmpeg-ui-mac#macos'
+        run: gh release create -R $GITHUB_REPOSITORY -p --target $GITHUB_SHA 0.0.0-alpha-"$(date -u +%F-%H-%M-%S)" 'art/linux-go-ffmpeg-ui/go-ffmpeg-ui#linux' 'art/windows-go-ffmpeg-ui/go-ffmpeg-ui-windows.zip#windows' 'art/macos-go-ffmpeg-ui/go-ffmpeg-ui-mac#macos'
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
