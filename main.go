@@ -15,9 +15,18 @@ import (
 )
 
 func main() {
+	a := app.NewWithID("com.github.something-something-something.go-ffmpeg-ui")
+	
+	
 	ffmpegLocation := binding.NewString()
-	ffmpegLocation.Set("")
-
+	ffmpegLocation.Set(a.Preferences().StringWithFallback("ffmpegBin",""))
+	ffmpegLocation.AddListener(binding.NewDataListener(func() {
+		ffmpegLoc,err:=ffmpegLocation.Get()
+		if err==nil{
+			a.Preferences().SetString("ffmpegBin",ffmpegLoc)
+		}
+		
+	}))
 	importFileName := binding.NewString()
 	importFileName.Set("")
 	exportFileName := binding.NewString()
@@ -25,9 +34,9 @@ func main() {
 	ffmpegStatus := binding.NewString()
 	ffmpegStatus.Set("Not Run")
 	fmt.Println("Hi")
-	a := app.NewWithID("com.github.something-something-something.go-ffmpeg-ui")
+	
 	//a.SendNotification(fyne.NewNotification("ffmpeg ui wraper","Starting"))
-	w := a.NewWindow("ffmpeg")
+	w := a.NewWindow("ffmpeg ui")
 	c := container.New(layout.NewGridLayout(2))
 
 	c.Add(widget.NewButton("Click to select ffmpeg Executable", func() {
