@@ -24,7 +24,7 @@ func main() {
 	ffmpegStatus := binding.NewString()
 	ffmpegStatus.Set("Not Run")
 	fmt.Println("Hi")
-	a := app.New()
+	a := app.NewWithID("com.github.something-something-something.go-ffmpeg-ui")
 	//a.SendNotification(fyne.NewNotification("ffmpeg ui wraper","Starting"))
 	w := a.NewWindow("ffmpeg")
 	c := container.New(layout.NewGridLayout(2))
