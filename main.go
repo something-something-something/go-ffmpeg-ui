@@ -30,11 +30,12 @@ func main() {
 	c := container.New(layout.NewGridLayout(2))
 
 	c.Add(	widget.NewButton("Click to select ffmpeg Executable", func(){
-		dialog.ShowFileOpen(func(u fyne.URIReadCloser,err error){
+		d:=dialog.NewFileOpen(func(u fyne.URIReadCloser,err error){
 			if err == nil && u != nil {
 				ffmpegLocation.Set(u.URI().Path())	
 			}
 		},w)
+		setDialogSizeAndShow(d)
 	}))
 	c.Add(widget.NewLabelWithData(ffmpegLocation))
 	c.Add(
@@ -103,13 +104,23 @@ func main() {
 	
 	
 }
-func importFile(f func(fyne.URIReadCloser, error), win fyne.Window) {
+func setDialogSizeAndShow(d dialog.Dialog){
+	d.Resize(fyne.Size{
+		Width: 800,
+		Height: 800,
+	})
+	d.Show()
+}
 
-	dialog.ShowFileOpen(f, win)
+func importFile(f func(fyne.URIReadCloser, error), win fyne.Window) {
+	d:=dialog.NewFileOpen(f,win)
+	setDialogSizeAndShow(d)
+
 
 }
 func exportFile(f func(fyne.URIWriteCloser, error), win fyne.Window) {
-
-	dialog.ShowFileSave(f, win)
+	d:=dialog.NewFileSave(f,win)
+	d.SetFileName("ffmpeg.mp4")
+	setDialogSizeAndShow(d)
 
 }
