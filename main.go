@@ -97,7 +97,7 @@ func main() {
 		Width: 800,
 		Height: 800,
 	})
-	w.SetFixedSize(true)
+	//w.SetFixedSize(true)
 	//w.CenterOnScreen()
 	w.ShowAndRun()
 	
