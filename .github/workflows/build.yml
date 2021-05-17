@@ -10,7 +10,7 @@ jobs:
           go-version: '^1.16.0'
       - run: |
           sudo apt-get update
-          sudo apt-get install gcc libgl1-mesa-dev libegl1-mesa-dev libgles2-mesa-dev libx11-dev xorg-dev
+          sudo apt-get install gcc libgl1-mesa-dev xorg-dev
       - run: go build
       - uses: actions/upload-artifact@v2
         with:
@@ -28,14 +28,26 @@ jobs:
         with:
           name: windows-go-ffmpeg-ui
           path: go-ffmpeg-ui.exe
+  build-on-mac:
+    runs-on: macos-latest
+    steps: 
+      - uses: actions/checkout@v2
+      - uses:  actions/setup-go@v2
+        with:
+          go-version: '^1.16.0'
+      - run: go build
+      - uses: actions/upload-artifact@v2
+        with:
+          name: macos-go-ffmpeg-ui
+          path: go-ffmpeg-ui
   prerelease:
-    needs: [build-on-linux, build-on-windows]
+    needs: [build-on-linux, build-on-windows,build-on-mac]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v2
         with:
           path: art/
       - name: prerelease-gh
-        run: gh release create -R $GITHUB_REPOSITORY -p --target $GITHUB_SHA 0.0.0-alpha-"$(date -u +%F-%H-%M-%S)" 'art/linux-go-ffmpeg-ui/go-ffmpeg-ui#linux' 'art/windows-go-ffmpeg-ui/go-ffmpeg-ui.exe#windows'
+        run: gh release create -R $GITHUB_REPOSITORY -p --target $GITHUB_SHA 0.0.0-alpha-"$(date -u +%F-%H-%M-%S)" 'art/linux-go-ffmpeg-ui/go-ffmpeg-ui#linux' 'art/windows-go-ffmpeg-ui/go-ffmpeg-ui.exe#windows' 'art/macos-go-ffmpeg-ui/go-ffmpeg-ui#macos'
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
